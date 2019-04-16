@@ -4,6 +4,7 @@
     <title>Chatkit demo</title>
   </head>
   <body>
+    <script src="https://unpkg.com/@pusher/chatkit-client@1/dist/web/chatkit.js"></script>
     <script>
     	const tokenProvider = new Chatkit.TokenProvider({
 			  url: "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/c8cfadcc-721b-45c0-8d74-afa5e0d49452/token"
@@ -11,13 +12,21 @@
 
 			const chatManager = new Chatkit.ChatManager({
 			  instanceLocator: "v1:us1:c8cfadcc-721b-45c0-8d74-afa5e0d49452",
-			  userId: "testUser1",
+			  userId: "testuser1",
 			  tokenProvider: tokenProvider
       });
       
       chatManager
         .connect()
         .then(currentUser => {
+          currentUser.subscribeToRoomMultipart({
+            roomId: currentUser.rooms[0].id,
+            hooks: {
+              onMessage: message => {
+                console.log("Received message:", message)
+              } 
+            }
+          });
             console.log("Connected as user ", currentUser);
         })
         .catch(error => {
