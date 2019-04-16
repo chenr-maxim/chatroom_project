@@ -24,13 +24,12 @@
 
       chatManager
         .connect()
-        
-        .then(currentUser => {
-          currentUser.subscribeToRoomMultipart({
-        roomId: currentUser.rooms[0].id,
-        hooks: {
-          onMessage: message => {
-            console.log("Received message:", message)
+          .then(currentUser => {
+            currentUser.subscribeToRoomMultipart({
+              roomId: currentUser.rooms[0].id,
+              hooks: {
+                onMessage: message => {
+                  console.log("Received message:", message)
           }
         }
       });
