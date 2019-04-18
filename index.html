@@ -27,29 +27,18 @@
       chatManager
         .connect()
           .then(currentUser => {
-/*<<<<<<< HEAD
-            currentUser.subscribeToRoomMultipart({
-              roomId: currentUser.rooms[0].id,
-              hooks: {
-                onMessage: message => {
-                  console.log("Received message:", message)
-          }
-        }
-      });
-=======*/
             console.log(currentUser.rooms);
             console.log(currentUser.roomSubscriptions);
-
-//>>>>>>> 2bff5633a1e9229eec75984e623af895c5325cf8
 
             currentUser.subscribeToRoomMultipart({
             roomId: currentUser.rooms[0].id,
             hooks: {
               onMessage: message => {
                 console.log("Received message:", message.parts[0].payload.content)
+                document.write("Received message:", message.parts[0].payload.content, "\n")
               }
             },
-            messageLimit: 0
+            //messageLimit: 0
           });
         })
         .catch(error => {
