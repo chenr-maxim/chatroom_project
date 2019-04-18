@@ -1,5 +1,4 @@
 window.onload = function(e) {
-    
     const chatManager = hookUpChatKit();
     const ROOM_ID = '19707012'
 
@@ -32,7 +31,10 @@ window.onload = function(e) {
         })
         .then(messages => {
             for(var i = 0; i < messages.length; i++) {
-                console.log(messages[i].parts[0].payload.content);
+                var node = document.createElement("LI")
+                var writeMessages = document.createTextNode(messages[i].parts[0].payload.content);
+                node.appendChild(writeMessages);
+                document.getElementById('messages').appendChild(node);
             }
         })
         .catch(err => {
