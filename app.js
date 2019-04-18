@@ -1,12 +1,12 @@
 window.onload = function(e) {
     const chatManager = hookUpChatKit();
-    const ROOM_ID = '19707012'
+    const ROOM_ID = '19707012';
 
     chatManager
     .connect()
         .then(currentUser => {
-        console.log(currentUser.rooms);
-        console.log(currentUser.roomSubscriptions);
+        // console.log(currentUser.rooms);
+        // console.log(currentUser.roomSubscriptions);
         currentUser.subscribeToRoomMultipart({
         roomId: currentUser.rooms[0].id,
         hooks: {
@@ -20,6 +20,7 @@ window.onload = function(e) {
         })
         .catch(err => {
             console.log("error");
+            console.log(err)
         })
     });
 
@@ -55,6 +56,7 @@ function hookUpChatKit() {
         userId: "testuser2",
         tokenProvider: tokenProvider
     });
-    return chatManager
+    return chatManager;
 }
+
 
