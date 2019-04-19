@@ -1,6 +1,11 @@
 var ROOM_ID = '';
 var currentUser = '';
 
+//TODO:
+//Get rid of hardcoded user and roomid
+//create fake login screen to simulate authorization
+//input box with login credentials and then take that and call hookUpChatKit()
+
 window.onload = function(e) {
     const chatManager = hookUpChatKit();
     if(chatManager !== null) {
@@ -51,7 +56,6 @@ function loadWindow() {
         limit: 25,
     })
     .then(messages => {
-        console.log(messages);
         for(var i = 0; i < messages.length; i++) {
             var node = document.createElement("LI")
             var authorMessages = document.createTextNode(messages[i].sender.name + ": ");
