@@ -1,4 +1,4 @@
-var ROOM_ID = '19727781';
+var ROOM_ID = '';
 var currentUser = '';
 
 window.onload = function(e) {
@@ -7,10 +7,9 @@ window.onload = function(e) {
         chatManager.connect()
             .then(loadedCurrentUser => {
             currentUser = loadedCurrentUser;
-            // console.log(currentUser.rooms);
-            // console.log(currentUser.roomSubscriptions);
+            ROOM_ID = currentUser.rooms[0].id;
             currentUser.subscribeToRoomMultipart({
-            roomId: currentUser.rooms[0].id,
+            roomId: ROOM_ID,
             hooks: {
                 onMessage: message => {
                 console.log("Received message:", message.parts[0].payload.content)
@@ -18,7 +17,7 @@ window.onload = function(e) {
             },
             messageLimit: 0
             }).then(response => {
-                fetchMessages(currentUser);
+                loadWindow();
             })
             .catch(err => {
                 console.log("error");
@@ -26,25 +25,7 @@ window.onload = function(e) {
             })
         });
     
-        function fetchMessages(currentUser) {
-            currentUser.fetchMultipartMessages({
-                roomId: ROOM_ID,
-                direction: 'older',
-                limit: 25,
-            })
-            .then(messages => {
-                for(var i = 0; i < messages.length; i++) {
-                    var node = document.createElement("LI")
-                    var writeMessages = document.createTextNode(messages[i].parts[0].payload.content);
-                    node.appendChild(writeMessages);
-                    document.getElementById('messages').appendChild(node);
-                }
-            })
-            .catch(err => {
-                console.log( `Error fetching messages: ${err}`)
-                console.log(err)
-            })
-        }
+        
     }
 }
 
@@ -59,6 +40,30 @@ function hookUpChatKit() {
         tokenProvider: tokenProvider
     });
     return chatManager;
+}
+
+function loadWindow() {
+    var roomNode = document.createElement("h3");
+    var roomName = document.createTextNode(currentUser.rooms[0].name);
+    roomNode.appendChild(roomName);
+    document.getElementById('currentRoom').appendChild(roomNode);
+    currentUser.fetchMultipartMessages({
+        roomId: ROOM_ID,
+        direction: 'older',
+        limit: 25,
+    })
+    .then(messages => {
+        for(var i = 0; i < messages.length; i++) {
+            var node = document.createElement("LI")
+            var writeMessages = document.createTextNode(messages[i].parts[0].payload.content);
+            node.appendChild(writeMessages);
+            document.getElementById('messages').appendChild(node);
+        }
+    })
+    .catch(err => {
+        console.log( `Error fetching messages: ${err}`)
+        console.log(err)
+    })
 }
 
 function sendMessageToRoom() {

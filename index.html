@@ -4,13 +4,16 @@
     <title>Chatkit demo</title>
   </head>
   <body>
+    <div id='currentRoom'></div>
+    <div>
       <ul id="message-list">
         <div id="messages"></div>
       </ul>
-      <div>
-        <input type='text' id='message-text'>
-        <input type="submit" onclick='sendMessageToRoom()'>
-      </div>
+    </div>
+    <div>
+      <input type='text' id='message-text'>
+      <input type="submit" onclick='sendMessageToRoom()'>
+    </div>
     <script src="https://unpkg.com/@pusher/chatkit-client@1/dist/web/chatkit.js"></script>
     <script type="text/javascript" src="app.js"></script>
   </body>
