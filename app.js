@@ -1,5 +1,5 @@
 var ROOM_ID = '19727781';
-var currentUser = ''
+var currentUser = '';
 
 window.onload = function(e) {
     const chatManager = hookUpChatKit();
@@ -52,7 +52,6 @@ function hookUpChatKit() {
     const tokenProvider = new Chatkit.TokenProvider({
         url: "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/c8cfadcc-721b-45c0-8d74-afa5e0d49452/token"
       });
-    
     const chatManager = new Chatkit.ChatManager({
         instanceLocator: "v1:us1:c8cfadcc-721b-45c0-8d74-afa5e0d49452",
         //key: "e14a9168-5f4e-4d08-9e9f-56cefe8f0256:wNS8tHTBvfooEjGB2wy/mF3+OqL0DZstqKHu8AlzKA0="
