@@ -24,8 +24,6 @@ window.onload = function(e) {
                 console.log(err)
             })
         });
-    
-        
     }
 }
 
@@ -53,9 +51,12 @@ function loadWindow() {
         limit: 25,
     })
     .then(messages => {
+        console.log(messages);
         for(var i = 0; i < messages.length; i++) {
             var node = document.createElement("LI")
+            var authorMessages = document.createTextNode(messages[i].sender.name + ": ");
             var writeMessages = document.createTextNode(messages[i].parts[0].payload.content);
+            node.appendChild(authorMessages);
             node.appendChild(writeMessages);
             document.getElementById('messages').appendChild(node);
         }
