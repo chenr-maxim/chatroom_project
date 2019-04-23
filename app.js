@@ -1,13 +1,44 @@
-var ROOM_ID = '';
-var currentUser = '';
-
 //TODO:
 //Get rid of hardcoded user and roomid
 //create fake login screen to simulate authorization
 //input box with login credentials and then take that and call hookUpChatKit()
+// check loginUser first -> success -> loadWindow with that current User -> show chat windows
+// check loginUser first -> failure -> input user name -> load window
+var ROOM_ID;
+var currentUser;
 
 window.onload = function(e) {
+    if(authenticateUser()) {
+        loadChatManager();
+    } else {
+        if(currentUser == null) {
+            document.getElementById('modalContainer').style.display='block';
+            document.getElementById('roomContainer').style.display='none';
+        }
+    }
+}
+
+function authenticateUser() {
+    if(currentUser != null) {
+        document.getElementById('roomContainer').style.display='block';
+        document.getElementById('modalContainer').style.display='none';
+        return true;
+    }
+    return false;
+}
+
+function loginUser() {
+    var usernameInput = document.getElementById('uname').value;
+    currentUser = usernameInput;
+    document.getElementById('roomContainer').style.display='block';
+    document.getElementById('modalContainer').style.display='none';
+    loadChatManager();
+}
+
+function loadChatManager() {
+    console.log('loginUser success');
     const chatManager = hookUpChatKit();
+    console.log(chatManager);
     if(chatManager !== null) {
         chatManager.connect()
             .then(loadedCurrentUser => {
@@ -22,7 +53,7 @@ window.onload = function(e) {
             },
             messageLimit: 0
             }).then(response => {
-                loadWindow();
+                loadChatroom();
             })
             .catch(err => {
                 console.log("error");
@@ -39,13 +70,13 @@ function hookUpChatKit() {
     const chatManager = new Chatkit.ChatManager({
         instanceLocator: "v1:us1:c8cfadcc-721b-45c0-8d74-afa5e0d49452",
         //key: "e14a9168-5f4e-4d08-9e9f-56cefe8f0256:wNS8tHTBvfooEjGB2wy/mF3+OqL0DZstqKHu8AlzKA0="
-        userId: "testuser2",
+        userId: currentUser,
         tokenProvider: tokenProvider
     });
     return chatManager;
 }
 
-function loadWindow() {
+function loadChatroom() {
     var roomNode = document.createElement("h3");
     var roomName = document.createTextNode(currentUser.rooms[0].name);
     roomNode.appendChild(roomName);
@@ -82,7 +113,6 @@ function sendMessageToRoom() {
           })
           .then(messageId => {
             console.log(`Added message to ${ROOM_ID}`)
-            window.location.reload()
           })
           .catch(err => {
             console.log(`Error adding message to ${ROOM_ID}: ${err}`)

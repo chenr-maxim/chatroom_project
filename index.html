@@ -4,17 +4,36 @@
     <title>Chatkit demo</title>
   </head>
   <body>
-    <div id='currentRoom'></div>
-    <div>
-      <ul id="message-list">
-        <div id="messages"></div>
-      </ul>
+
+    <div id="modalContainer" style="display:none">
+        <div class="loginContainer">
+            <label for="userName"><b>Username</b></label>
+            <input id="uname" type="text" placeholder="Enter Username" name="uname" required>
+        
+            <!-- <label for="passWord"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="psw" required> -->
+        
+            <button type="submit" onclick="loginUser()">Login</button>
+        </div>
+        <div class="cancelContainer">
+        </div>
     </div>
-    <div>
-      <input type='text' id='message-text'>
-      <input type="submit" onclick='sendMessageToRoom()'>
+
+    <div id="roomContainer" style="display:hidden">
+        <div id='currentRoom'></div>
+        <div id="message-list">
+          <ul>
+            <div id="messages"></div>
+          </ul>
+        </div>
+        <div>
+          <input type='text' id='message-text'>
+          <input type="submit" onclick='sendMessageToRoom()'>
+        </div>
     </div>
+
     <script src="https://unpkg.com/@pusher/chatkit-client@1/dist/web/chatkit.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script type="text/javascript" src="app.js"></script>
     <link rel="stylesheet" type="text/css" href="styles.css"/>
   </body>
