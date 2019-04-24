@@ -77,6 +77,9 @@ function hookUpChatKit() {
 }
 
 function loadChatroom() {
+
+    console.log(currentUser);
+    console.log("currentUser");
     var roomNode = document.createElement("h3");
     var roomName = document.createTextNode(currentUser.rooms[0].name);
     roomNode.appendChild(roomName);
@@ -93,6 +96,7 @@ function loadChatroom() {
             var writeMessages = document.createTextNode(messages[i].parts[0].payload.content);
             node.appendChild(authorMessages);
             node.appendChild(writeMessages);
+            // node.appendChild(messageSent)
             document.getElementById('messages').appendChild(node);
         }
     })
@@ -103,7 +107,7 @@ function loadChatroom() {
 }
 
 function sendMessageToRoom() {
-    var text = document.getElementById("message-text").value;
+    const text = document.getElementById("message-text").value;
     if( !text ) {
         alert('please enter a message')
     } else {
@@ -113,6 +117,14 @@ function sendMessageToRoom() {
           })
           .then(messageId => {
             console.log(`Added message to ${ROOM_ID}`)
+            var currentMessages = document.getElementById('messages');
+            var node = document.createElement("LI")
+            var userNameNode = document.createTextNode(currentUser.name + ": ");
+            var textNode = document.createTextNode(text);
+            node.appendChild(userNameNode);
+            node.appendChild(textNode);
+            currentMessages.after(node);
+
           })
           .catch(err => {
             console.log(`Error adding message to ${ROOM_ID}: ${err}`)
